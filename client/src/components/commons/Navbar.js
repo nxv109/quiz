@@ -5,12 +5,19 @@ import { CTX } from "../../Store";
 
 export default function Navbar() {
   const [appState, dispatch] = React.useContext(CTX);
-  // const [userLogin, setUserLogin] = React.useState(null);
+  const [search, setSearch] = React.useState("");
   let user_login = JSON.parse(sessionStorage.getItem('info_user_s')) || JSON.parse(localStorage.getItem('info_user_l'));
 
   const hanldLogout = () => {
     sessionStorage.removeItem('info_user_s');
     localStorage.removeItem('info_user_l');
+  };
+
+  //Search
+  const hanldChangeSearch = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value);
+    dispatch({ type: "SEARCH", payload: e.target.value });
   };
 
   return (<nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -63,10 +70,13 @@ export default function Navbar() {
         </li>
       </ul>
       <form className="form-inline my-2 my-lg-0">
-        <input aria-label="Search" className="form-control mr-sm-2" placeholder="Search" type="search"/>
-        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Search
-        </button>
+        <input
+          className="form-control mr-sm-2"
+          placeholder="Search"
+          type="search"
+          value={search}
+          onChange={hanldChangeSearch}
+        />
       </form>
     </div>
   </nav>)
