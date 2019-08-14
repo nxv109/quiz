@@ -1,111 +1,94 @@
 import React from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { createBrowserHistory } from "history";
+import {Link} from "react-router-dom";
 
-const history = createBrowserHistory();
+import { CTX } from "../../Store";
 
-export default function Login() {
-    const [userLogin, setUserLogin] = React.useState({});
-    const [remember, setRemember] = React.useState(false);
-    const [message, setMessage] = React.useState("");
+export default function Login({history}) {
+  const [appState, dispatch] = React.useContext(CTX);
+  const [userLogin, setUserLogin] = React.useState({});
+  const [remember, setRemember] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const [status, setStatus] = React.useState(false);
 
-    React.useEffect(() => {
-        if(message === "Đăng nhập thành công!"){
-            sessionStorage.setItem('info_user_s', JSON.stringify(userLogin));
-        };
+  const hanldChange = (e) => {
+    const target = e.target;
+    const name = target.name;
+    const value = target.value;
 
-        if(message === "Đăng nhập thành công!" && remember === true){
-            localStorage.setItem('info_user_l', JSON.stringify(userLogin));
-        }
-        
-    }, [message, userLogin, remember]);
+    setUserLogin({
+      ...userLogin,
+      [name]: target.type === "checkbox"
+        ? setRemember(!remember)
+        : value
+    });
+  };
 
-    const hanldChange = (e) => {
-        const target = e.target;
-        const name = target.name;
-        const value = target.value;
+  const hanldSubmit = (e) => {
+    e.preventDefault();
 
-        setUserLogin({...userLogin, [name]: target.type === "checkbox" ? setRemember(!remember) : value });
+    const user_login = {
+      email: userLogin.email,
+      password: userLogin.password
     };
 
-    const hanldSubmit = (e) => {
-        e.preventDefault();
+    const rs = async () => {
+      const res = await axios.post('http://localhost:5000/api/users/login', user_login);
+      // console.log(res)
+      setMessage(res.data.message);
+      setStatus(res.data.status);
 
-        const user_login = {
-            email: userLogin.email,
-            password: userLogin.password
-        };
+      if (res.data.status === true) {
+        dispatch({ type: "TEST", payload: user_login });
+        sessionStorage.setItem('info_user_s', JSON.stringify(user_login));
+        history.push('/');
+      };
 
-        const rs = async () => {
-            const res = await axios.post('http://localhost:5000/api/users/login', user_login);
-            // console.log(res)
-            setMessage(res.data.message);
-
-            // await history.push('/');
-            // window.location.reload();
-        };
-        rs();
+      if (res.data.status === true && remember === true) {
+        localStorage.setItem('info_user_l', JSON.stringify(user_login));
+      }
     };
+    rs();
+  };
 
-    return (
-        <div className="container pt-3 pb-3">
-        <div className="row">
-            <div className="card w-100">
-            <div className="card-header">
-                <h1>Đăng nhập</h1>
-            </div>
-            <div className="card-body">
-                {/* message */}
-                <span className={`badge mb-3 ${message === "Đăng nhập thành công!" ? "badge-success" : "badge-danger"}`}>{message}</span>
-                <br />
-                {
-                    message === "Đăng nhập thành công!" ? (<a href="/" className="btn btn-success">GO HOME</a>) : ""
-                }
-                <blockquote className="blockquote mb-0">
-                <form onSubmit={hanldSubmit}>
-                    <div className="form-group">
-                        <label>Email</label>
-                        <input
-                            className="form-control"
-                            type="text"
-                            name="email"
-                            value={userLogin.email || ""}
-                            onChange={hanldChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Mật khẩu</label>
-                        <input
-                            className="form-control"
-                            type="password"
-                            name="password"
-                            value={userLogin.password || ""}
-                            onChange={hanldChange}
-                        />
-                    </div>
-                    <div className="form-check">
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            name="remember"
-                            onChange={hanldChange}
-                            checked={remember}
-                        />
-                        <label className="form-check-label">
-                            Nhớ tôi
-                        </label>
-                    </div>
-                    <button className="btn btn-success mt-3" type="submit">
-                        Đăng nhập
-                    </button>
-                    <br />
-                    <Link className="text-primary font-weight-normal" style={{fontSize: "15px"}} to="/forgotPassword">Quên mật khẩu?</Link>
-                </form>
-                </blockquote>
-            </div>
-            </div>
+  return (<div className="container pt-3 pb-3">
+    <div className="row">
+      <div className="card w-100">
+        <div className="card-header">
+          <h1>Đăng nhập</h1>
         </div>
+        <div className="card-body">
+          {/* message */}
+          <span className={`badge mb-3 ${status === true
+              ? "badge-success"
+              : "badge-danger"}`}>{message}</span>
+          <blockquote className="blockquote mb-0">
+            <form onSubmit={hanldSubmit}>
+              <div className="form-group">
+                <label>Email</label>
+                <input className="form-control" type="text" name="email" value={userLogin.email || ""} onChange={hanldChange}/>
+              </div>
+              <div className="form-group">
+                <label>Mật khẩu</label>
+                <input className="form-control" type="password" name="password" value={userLogin.password || ""} onChange={hanldChange}/>
+              </div>
+              <div className="form-check">
+                <input className="form-check-input" type="checkbox" name="remember" onChange={hanldChange} checked={remember}/>
+                <label className="form-check-label">
+                  Nhớ tôi
+                </label>
+              </div>
+              <button className="btn btn-success mt-3" type="submit">
+                Đăng nhập
+              </button>
+              <br/>
+              <Link className="text-primary font-weight-normal" style={{
+                  fontSize: "15px"
+                }} to="/forgotPassword">Quên mật khẩu?</Link>
+            </form>
+          </blockquote>
         </div>
-    );
+      </div>
+    </div>
+  </div>);
 }

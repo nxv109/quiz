@@ -4,7 +4,7 @@ const { register_validation, forgot_password_validation } = require("../../valid
 
 exports.get_add_user = async (req, res) => {
 
-    //let's validation 
+    //let's validation
     const {error} = await register_validation(req.body);
     //check user existed
     const email_exist = await Register.findOne({ email: req.body.email });
@@ -17,7 +17,7 @@ exports.get_add_user = async (req, res) => {
 
     //check user existed
     // const email_exist = await Register.findOne({ email: req.body.email });
-    // if(email_exist) return res.json({ message: 'Người dùng đã tồn tại!' }); 
+    // if(email_exist) return res.json({ message: 'Người dùng đã tồn tại!' });
 
     //hash password
     const salt = bcrypt.genSaltSync(10);
@@ -47,7 +47,7 @@ exports.get_update_user_profile = async (req, res) => {
     //hash password
     // const salt = bcrypt.genSaltSync(10);
     // const hash_password = await bcrypt.hashSync(req.body.password, salt);
-    
+
     const users = {
         fullName: req.body.fullName,
         email: req.body.email,
@@ -63,7 +63,7 @@ exports.get_update_user_password = async (req, res) => {
     //hash password
     const salt = bcrypt.genSaltSync(10);
     const hash_password = await bcrypt.hashSync(req.body.password, salt);
-    
+
     const users = {
         password: hash_password
     };
@@ -77,7 +77,7 @@ exports.get_forgot_password = async (req, res) => {
 
     //get _id user
     const user = await Register.findOne({ email: req.body.email });
-    
+
     if(!user){
         return res.json({ message: "Người dùng không tồn tại!" });
     };
