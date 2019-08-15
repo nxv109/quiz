@@ -41,7 +41,7 @@ export default function Home() {
                 <Link className="nav-link text-white" to={`/exam/${v._id}`}>Kiểm tra thôi nào!</Link>
               </button>
             </div>
-            <div className="card-footer text-muted">2 days ago</div>
+            {/*<div className="card-footer text-muted">2 days ago</div>*/}
           </div>))
         }
       </div>
