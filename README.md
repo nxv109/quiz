@@ -6,6 +6,6 @@ npm install
 # 2.
 Create db mongodb.
 # 3.
-cd quiz/
+cd quiz/ </br>
 npm run dev </br>
 Port localhost:3000
