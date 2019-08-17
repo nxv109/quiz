@@ -1,4 +1,4 @@
-# S
+# Setup
 # 1. 
 cd client/
 </br>
