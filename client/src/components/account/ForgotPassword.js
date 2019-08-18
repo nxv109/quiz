@@ -27,7 +27,7 @@ export default function ForgotPassword() {
                 newPassword: users.newPassword
             };
 
-            axios.put(`http://localhost:5000/api/users/forgotPassword/`, datas)
+            axios.put(`/api/users/forgotPassword/`, datas)
             .then(res => {
                 setMessage(res.data.message);
                 // console.log(res.data);

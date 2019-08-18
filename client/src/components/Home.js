@@ -10,7 +10,7 @@ export default function Home() {
 
   React.useEffect(() => {
     const fetch_data = async () => {
-      const res = await axios.get('http://localhost:5000/api/subjects/');
+      const res = await axios.get('/api/subjects/');
 
       dispatch({type: "FETCH_DATA_SUBJECT", payload: res.data});
     };

@@ -25,13 +25,13 @@ export default function Register() {
         if(users.password_again !== users.password){
             setMessage("Mật khẩu chưa khớp");
         }else{
-            axios.post('http://localhost:5000/api/users/register', body_users)
+            axios.post('/api/users/register', body_users)
             .then(res => {
                 setMessage(res.data.message);
             })
         }
     };
-    
+
     return (
         <div className="container pt-3 pb-3">
         <div className="row">

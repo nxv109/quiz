@@ -5,8 +5,6 @@ import ReactCountdownClock from "react-countdown-clock";
 
 import { CTX } from "../Store";
 
-const url = "http://localhost:5000";
-
 export default function Exam({ match, location }) {
     const [appState, dispatch] = React.useContext(CTX);
     const [core, setCore] = React.useState(0);
@@ -15,11 +13,11 @@ export default function Exam({ match, location }) {
     //fetch data
     React.useLayoutEffect(() => {
         const fetch_data = async () => {
-            const res = await axios.get(`${url}/api/quizzes/list/${match.params.id}`);
+            const res = await axios.get(`/api/quizzes/list/${match.params.id}`);
             dispatch({ type: "FETCH_DATA_QUIZZES", payload: res.data[core], total: res.data, quizzes: res.data });
         };
         const fetch_data_subject = async () => {
-            const res = await axios.get(`${url}/api/subjects/`);
+            const res = await axios.get(`/api/subjects/`);
             dispatch({ type: "FETCH_DATA_SUBJECT", payload: res.data });
         };
         fetch_data();
@@ -70,7 +68,7 @@ export default function Exam({ match, location }) {
                         <div>{appState.quiz.question}</div>
                         <div>
                             <ReactCountdownClock
-                                seconds={10*appState.total.length+1}
+                                seconds={10*appState.total.length+5}
                                 color="#28a745"
                                 alpha={0.9}
                                 size={50}
@@ -99,7 +97,7 @@ export default function Exam({ match, location }) {
                                         </div>
                                     ))
                                 }
-                                
+
                                 <div className="card-footer bg-transparent border-success">
                                     <div className="d-flex justify-content-between">
                                         <button onClick={prevQuiz} type="button" className="btn btn-dark">Quay lại</button>
@@ -108,7 +106,7 @@ export default function Exam({ match, location }) {
                                         }
                                         {
                                             core >= appState.total.length - 1 ? (<Link onClick={nextQuiz} className="btn btn-success" to="/finish/">Hoàn thành</Link>)
-                                            : appState.disabled ? (<Link onClick={nextQuiz} className="btn btn-success" to="/finish/">Hoàn thành</Link>) 
+                                            : appState.disabled ? (<Link onClick={nextQuiz} className="btn btn-success" to="/finish/">Hoàn thành</Link>)
                                             : (<button onClick={nextQuiz} type="button" className="btn btn-success">Tiếp theo</button>)
                                         }
                                     </div>
@@ -119,7 +117,7 @@ export default function Exam({ match, location }) {
                             </div>
                             <div className="text-center"><span className="badge badge-warning">Warning:</span><span className="font-italic text-danger"> Nếu bạn không "chốt đáp án", thì đáp án của bạn sẽ không được tính và "không thể sửa" đáp án sau khi đã chốt!</span></div>
                         </div>
-                    </div> 
+                    </div>
             </div>
             <div className="col-sm-4">
                 <div className="card border-success" style={{width: '100%'}}>

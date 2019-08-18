@@ -7,7 +7,7 @@ export default function ChangePassword() {
 
     React.useEffect(() => {
         const fetch_data = async () => {
-            const res = await axios.get('http://localhost:5000/api/users/list');
+            const res = await axios.get('/api/users/list');
             const users_login = JSON.parse(sessionStorage.getItem('info_user_s')) || JSON.parse(localStorage.getItem('info_user_l'));
             const users = res.data.filter(v => {
                 return v.email === users_login.email;
@@ -35,7 +35,7 @@ export default function ChangePassword() {
             password: users.password
         };
 
-        axios.put(`http://localhost:5000/api/users/editPassword/${users._id}/`, edit_user)
+        axios.put(`/api/users/editPassword/${users._id}/`, edit_user)
         .then(res => {
             setMessage(res.data.message);
             // console.log(res.data);
@@ -68,7 +68,7 @@ export default function ChangePassword() {
                                 </fieldset>
                             </div>
                             </div>
-                            
+
                             <button type="submit" className="btn btn-success">
                                 Sửa
                             </button>

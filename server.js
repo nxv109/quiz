@@ -26,7 +26,8 @@ const subject_route = require("./routes/subjects/subject");
 const quiz_route = require("./routes/quizs/quiz");
 
 //connect to mongodb
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useCreateIndex: true }, () => console.log('Connected to mongodb'));
+const mongo_url = process.env.DATABASE_URL || 'mongodb://127.0.0.1:27017/quiz';
+mongoose.connect(mongo_url, { useNewUrlParser: true, useCreateIndex: true }, () => console.log('Connected to mongodb'));
 
 //routes
 //account

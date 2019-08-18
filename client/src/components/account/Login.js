@@ -33,7 +33,7 @@ export default function Login({history}) {
     };
 
     const rs = async () => {
-      const res = await axios.post('http://localhost:5000/api/users/login', user_login);
+      const res = await axios.post('/api/users/login', user_login);
       // console.log(res)
       setMessage(res.data.message);
       setStatus(res.data.status);
