@@ -38,6 +38,16 @@ app.use('/api/subjects/', subject_route);
 //quiz
 app.use('/api/quizzes/', quiz_route);
 
+//server static assets if in production
+if(process.env.NODE_ENV === 'production'){
+  //set static folder
+  app.use(express.static("client/build"));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  })
+}
+
 //create server
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Connected to server at port ${port}`));
