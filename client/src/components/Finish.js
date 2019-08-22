@@ -24,7 +24,13 @@ export default function Finish() {
         	<div className="row">
         		<div className="card w-100 mt-3">
 			        <div className="card-header mb-5">
-			          <h1 className="text-center text-success">Hoàn thành! <img src="https://img.icons8.com/cute-clipart/50/000000/facebook-like.png" alt="icon finish"></img></h1>
+			          	<h1 className="text-center text-success">
+							  <span className={`${percent < 50 ? "text-warning" : ""}`}>Hoàn thành!</span>  
+							  {
+								percent < 50 
+								? (<img src="https://img.icons8.com/dusk/55/000000/old-man-skin-type-7.png" atl="icon bad" />) 
+								: (<img src="https://img.icons8.com/cute-clipart/50/000000/facebook-like.png" alt="icon finish" />)}
+						</h1>
 			        </div>
 			        <div className="card-body">
 						<blockquote className="blockquote mb-0 text-center">
