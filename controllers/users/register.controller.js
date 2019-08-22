@@ -83,8 +83,8 @@ exports.get_forgot_password = async (req, res) => {
     };
 
     //compare password
-    const valid_password = await bcrypt.compareSync(req.body.oldPassword, user.password);
-    if(!valid_password) return res.json({ message: 'Mật khẩu cũ chưa chính xác' });
+    // const valid_password = await bcrypt.compareSync(req.body.oldPassword, user.password);
+    // if(!valid_password) return res.json({ message: 'Mật khẩu cũ chưa chính xác' });
 
     //hash password
     const salt = await bcrypt.genSaltSync(10);
@@ -96,6 +96,6 @@ exports.get_forgot_password = async (req, res) => {
     };
 
     Register.findOneAndUpdate({ _id: user._id}, users, { new: true, useFindAndModify: false }, (err, doc) => {
-        res.json({ message: "Đổi mật khẩu thành công" });
+        res.json({ message: "Đặt lại mật khẩu thành công" });
     })
 };

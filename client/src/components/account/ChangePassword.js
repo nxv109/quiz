@@ -70,7 +70,7 @@ export default function ChangePassword() {
                             </div>
 
                             <button type="submit" className="btn btn-success">
-                                Sửa
+                                Đổi mật khẩu
                             </button>
                         </form>
                     </blockquote>
