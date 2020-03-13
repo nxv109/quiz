@@ -49,5 +49,5 @@ if(process.env.NODE_ENV === 'production'){
 }
 
 //create server
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 6000;
 app.listen(port, () => console.log(`Connected to server at port ${port}`));
